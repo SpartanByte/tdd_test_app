@@ -5,7 +5,7 @@ RSpec.feature "Creating Articles" do
         visit "/"
         click_link "New Article"
         fill_in "Title", with: "Creating a blog"
-        fill_in "Body", with: "Lorem Ipsum"
+        fill_in "Body", with: "Lorem ipsum dolor sit amet, consectetur."
         click_button "Create Article"
         # assertions
         expect(page).to have_content("Article has been created")
