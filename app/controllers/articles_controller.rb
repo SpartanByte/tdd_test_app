@@ -5,6 +5,8 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+
+    
   end
 
   def new
@@ -24,6 +26,12 @@ class ArticlesController < ApplicationController
     
   private
     def article_params
-    params.require(:article).permit(:title, :body) 
+      params.require(:article).permit(:title, :body) 
+    end
+
+    def resource_not_found
+      message = "The article you are looking for could not be found" 
+      flash[:alert] = message
+      redirect_to root_path
     end
 end
