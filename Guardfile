@@ -1,6 +1,19 @@
-The final Guardfile after the updates is below, some comments have been removed, you can also get this from the github repo of the course at 
+# A sample Guardfile
+# More info at https://github.com/guard/guard#readme
 
-https://github.com/udemyrailscourse/bdd_course_rails5/blob/master/Guardfile
+## Uncomment and set this to only include directories you want to watch
+# directories %w(app lib config test spec features) \
+#  .select{|d| Dir.exists?(d) ? d : UI.warning("Directory #{d} does not exist")}
+
+## Note: if you are using the `directories` clause above and you are not
+## watching the project directory ('.'), then you will want to move
+## the Guardfile to a watched dir and symlink it back, e.g.
+#
+#  $ mkdir config
+#  $ mv Guardfile config/
+#  $ ln -s config/Guardfile .
+#
+# and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
 cucumber_options = {
   # Below are examples overriding defaults
@@ -36,7 +49,7 @@ end
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-guard :rspec, cmd: "rspec" do
+guard :rspec, cmd: "bundle exec rspec" do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
 
@@ -56,9 +69,7 @@ guard :rspec, cmd: "rspec" do
   rails = dsl.rails(view_extensions: %w(erb haml slim))
   dsl.watch_spec_files_for(rails.app_files)
   dsl.watch_spec_files_for(rails.views)
-  
-  watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { "spec/features" }
-  watch(%r{^app/models/(.+)\.rb$})  { "spec/features" }
+
   watch(rails.controllers) do |m|
     [
       rspec.spec.call("routing/#{m[1]}_routing"),
@@ -69,11 +80,11 @@ guard :rspec, cmd: "rspec" do
 
   # Rails config changes
   watch(rails.spec_helper)     { rspec.spec_dir }
-  watch(rails.routes)          { "spec" } # { "#{rspec.spec_dir}/routing" }  
+  watch(rails.routes)          { "#{rspec.spec_dir}/routing" }
   watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
 
   # Capybara features specs
-  watch(rails.view_dirs)     { "spec/features" } # { |m| rspec.spec.call("features/#{m[1]}") } 
+  watch(rails.view_dirs)     { |m| rspec.spec.call("features/#{m[1]}") }
   watch(rails.layouts)       { |m| rspec.spec.call("features/#{m[1]}") }
 
   # Turnip features and steps
@@ -82,13 +93,3 @@ guard :rspec, cmd: "rspec" do
     Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
   end
 end
-
-Important additions that were made were the two lines below in the # Rails files section:
-watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { "spec/features" }
-watch(%r{^app/models/(.+)\.rb$})  { "spec/features" }
-
-The two updates were also made, first in the # Rails config changes section:
-watch(rails.routes)          { "spec" } # { "#{rspec.spec_dir}/routing" }
-
-The last update was made in the # Capybara features specs section:
-watch(rails.view_dirs)     { "spec/features" } # { |m| rspec.spec.call("features/#{m[1]}") }
