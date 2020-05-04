@@ -40,7 +40,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'jquery-rails'
 
 # add bootstrap
-gem 'bootstrap-sass', '~>3.3.6'
+gem "bootstrap-sass", ">= 3.4.1"
 gem 'autoprefixer-rails', '~>6.3.7'
 
 group :development, :test do
