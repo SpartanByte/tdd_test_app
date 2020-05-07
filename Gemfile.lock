@@ -294,7 +294,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   chromedriver-helper
   coffee-rails (~> 4.2)
-  devise (~> 4.7)
+  devise (~> 4.2)
   guard (~> 2.14.0)
   guard-cucumber (~> 2.1.2)
   guard-rspec (~> 4.7.2)
