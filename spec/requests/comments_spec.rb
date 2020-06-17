@@ -33,8 +33,6 @@ RSpec.describe "Comments", type: :request do
                     expect(flash[:notice]).to eq flash_message
                 end
             end
-
-
         end
     end
 end
